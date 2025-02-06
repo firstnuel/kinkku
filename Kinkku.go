@@ -1,17 +1,25 @@
 package main
 
-import kinkku "github.com/firstnuel/kinkku/kinkku"
+import (
+	"time"
+
+	kinkku "github.com/firstnuel/kinkku/kinkku"
+)
 
 func main() {
-
+	// Parse command-line arguments
 	kinkku.GetArgs()
+
+	// Display startup banner and slogan
 	kinkku.StartUp()
-	//run the server
+
+	// Run the server for the first time
 	kinkku.RestartServer()
+
 	// Create a channel to receive file change events
 	fileChanges := make(chan string)
 
-	// Start watching for file changes
+	// Start watching for file changes in a separate goroutine
 	go kinkku.WatchFiles(fileChanges)
 
 	// Watch for file change events and restart the server
@@ -23,6 +31,9 @@ func main() {
 				kinkku.RestartServer()
 				kinkku.ModificationDetected = false // Reset the flag after restarting
 			}
+		default:
+			// Avoid busy-waiting by adding a small sleep
+			time.Sleep(100 * time.Millisecond)
 		}
 	}
 }

@@ -1,10 +1,20 @@
 package kinkku
 
+import "os/exec"
+
+// var (
+// 	port                 = "8080"    // Specify the port your server is running on
+// 	path                 = "../cars" // Specify the path to your project directory
+// 	ModificationDetected = false     // Flag to track if any file modification has been detected
+// 	restartCount         = 0
+// )
+
 var (
-	port                 = "8080"    // Specify the port your server is running on
-	path                 = "../cars" // Specify the path to your project directory
-	ModificationDetected = false     // Flag to track if any file modification has been detected
-	restartCount         = 0
+	path                 string
+	port                 string
+	restartCount         int
+	ModificationDetected bool
+	serverCmd            *exec.Cmd // Track the server process
 )
 
 //style vars
