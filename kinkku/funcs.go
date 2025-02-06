@@ -1,7 +1,6 @@
 package kinkku
 
 import (
-	"errors"
 	"fmt"
 	"os"
 	"os/exec"
@@ -105,23 +104,20 @@ func getServerPID(port string) (string, error) {
 
 // Function to kill a process listening on the specified port
 func killServerOnPort(port string) error {
-	var cmd *exec.Cmd
 	if runtime.GOOS == "darwin" {
 		pid, err := getServerPID(port)
 		if err != nil {
-			return err
+			return fmt.Errorf("failed to get server PID: %v", err)
 		}
-		if pid == "0" {
-			return errors.New("Server PID not found, unable to kill server. Please restart kinkku.")
+		cmd := exec.Command("kill", "-9", pid)
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to kill process %s: %v", pid, err)
 		}
-		// Kill process using pid-number on mac
-		cmd = exec.Command("kill", "-9", pid)
 	} else {
-		// Kill process on other systems.
-		cmd = exec.Command("fuser", "-k", "-n", "tcp", port)
-	}
-	if err := cmd.Run(); err != nil {
-		return nil
+		cmd := exec.Command("fuser", "-k", "-n", "tcp", port)
+		if err := cmd.Run(); err != nil {
+			return fmt.Errorf("failed to kill process on port %s: %v", port, err)
+		}
 	}
 	return nil
 }
