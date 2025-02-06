@@ -1,6 +1,6 @@
 package main
 
-import kinkku "github.com/firstnuel/kinkku/sinappi"
+import kinkku "github.com/firstnuel/kinkku/kinkku"
 
 func main() {
 
