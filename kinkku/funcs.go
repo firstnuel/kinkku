@@ -46,7 +46,12 @@ func RestartServer() {
 		if err := serverCmd.Process.Kill(); err != nil {
 			fmt.Println("Error killing server:", err)
 		}
+		// Wait for the process to fully terminate
+		serverCmd.Process.Wait()
 	}
+
+	// Add a small delay to ensure the port is released
+	time.Sleep(100 * time.Millisecond)
 
 	// Start the server again in a separate goroutine
 	go func() {
