@@ -16,29 +16,25 @@ func StartUp() {
 }
 
 func GetArgs() {
-	if len(os.Args) != 3 && len(os.Args) != 1 {
+	if len(os.Args) != 1 && len(os.Args) != 2 {
 		fmt.Println(FgRed + "Oops, skill issue: You got the ham, but where is the mustard?" + Reset)
 		fmt.Println("Wrong number of arguments.")
 		fmt.Println("kinkku usage example:")
-		fmt.Println("$ kinkku ./directory 6969")
+		fmt.Println("$ kinkku ./directory")
 		os.Exit(0)
 	}
 
 	if len(os.Args) == 1 {
 		path = "."
-		port = "8080"
-		fmt.Println()
-		fmt.Println(FgCyan + "Using current directory and port 8080 by default." + Reset)
 	} else {
 		path = os.Args[1]
-		port = os.Args[2]
 	}
 
 	if _, err := os.Stat(path); os.IsNotExist(err) {
 		fmt.Println(FgRed + "Oops, skill issue: Can't find your fridge." + Reset)
 		fmt.Println("Provided directory path does not exist.")
 		fmt.Println("kinkku usage example:")
-		fmt.Println("$ kinkku ./directory 6969")
+		fmt.Println("$ kinkku ./directory")
 		os.Exit(0)
 	}
 }

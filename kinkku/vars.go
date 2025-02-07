@@ -11,7 +11,6 @@ import "os/exec"
 
 var (
 	path                 string
-	port                 string
 	restartCount         int
 	ModificationDetected bool
 	serverCmd            *exec.Cmd // Track the server process
